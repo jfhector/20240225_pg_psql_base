@@ -1,9 +1,6 @@
-export async function getTodos (req, res, pool) {
-    try {
-      const { rows } = await pool.query('SELECT * FROM example_table');
-      res.json(rows);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  }
+import { getTodosFromDb } from '../../infra/db/index.js';
+
+export async function getTodos (req, res) {
+  const todos = await getTodosFromDb(); // Q? How to handle the fact that this may fail? look at errors classes; but also how to know whether need to use a try-catch again?
+  res.json(todos);
+}
