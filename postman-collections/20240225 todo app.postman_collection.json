@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "20a44d04-632f-4318-84a8-d10afbaf149a",
+		"name": "20240225 todo app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/todos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todos",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
