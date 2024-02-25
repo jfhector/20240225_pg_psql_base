@@ -7,6 +7,7 @@ const port = 3000;
 app.use(express.json());
 
 app.get('/todos', getTodos);
+// app.post('/todos', postTodos);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
