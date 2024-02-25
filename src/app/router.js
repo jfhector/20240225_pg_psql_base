@@ -1,6 +1,6 @@
 import express from 'express';
 import pg from 'pg';
-import { getData } from './routes/getData.js';
+import { getTodos } from './routes/getTodos.js';
 
 const app = express();
 const port = 3000;
@@ -17,7 +17,7 @@ const pool = new pg.Pool({
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-app.get('/data', (req, res) => getData(req, res, pool));
+app.get('/todos', (req, res) => getTodos(req, res, pool));
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);
