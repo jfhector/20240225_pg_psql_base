@@ -6,7 +6,7 @@ const app = express();
 const port = 3000;
 
 // Set up PostgreSQL client using Pool
-const client = new pg.Client({
+const pool = new pg.Pool({
   user: 'asdfg', // Replace 'your_username' with your PostgreSQL username
   host: 'localhost',
   database: 'my_psql_db', // Replace 'your_database' with your database name
@@ -17,7 +17,7 @@ const client = new pg.Client({
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
-app.get('/data', (req, res) => getData(req, res, client));
+app.get('/data', (req, res) => getData(req, res, pool));
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);

@@ -1,8 +1,11 @@
-export async function getData (req, res, client) {
+export async function getData (req, res, pool) {
     try {
-      const { rows } = await client.query('SELECT * FROM example_table'); // Replace 'your_table' with your table name
+      console.log("try beg");
+      const { rows } = await pool.query('SELECT * FROM example_table');
+      console.log("rows", rows);
       res.json(rows);
     } catch (err) {
+      console.log("catch beg");
       console.error(err);
       res.status(500).json({ error: 'Internal server error' });
     }
