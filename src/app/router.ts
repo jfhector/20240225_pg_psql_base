@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTodos } from './routes/getTodos.js';
+import { getTodos } from './routes/getTodos';
 
 const app = express();
 const port = 3000;
