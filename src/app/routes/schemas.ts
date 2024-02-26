@@ -5,6 +5,6 @@ const todoSchema = z.object({
   done: z.boolean(),
 });
 
-// type ToDo = TODO
+type ToDo = z.infer<typeof todoSchema>
 
-export {todoSchema};
+export {todoSchema, ToDo};
