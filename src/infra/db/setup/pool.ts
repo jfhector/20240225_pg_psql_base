@@ -4,7 +4,7 @@ import pg from 'pg';
 const pool = new pg.Pool({
     user: 'asdfg', // Replace 'your_username' with your PostgreSQL username
     host: 'localhost',
-    database: 'my_psql_db', // Replace 'your_database' with your database name
+    database: 'todos_app_db',
     password: '12345', // Replace 'your_password' with your database password
     port: 5432, // Default PostgreSQL port
   });
