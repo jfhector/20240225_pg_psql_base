@@ -2,7 +2,7 @@ import { writeNewTodoToDb } from '../../infra/db/';
 import { RequestHandler } from 'express' ;
 import { todoSchema, ToDo } from './schemas' ;
 import { SchemaValidationError } from '../errors';
-import { isRFC7807Error } from '../../utils/RFC7807Error';
+import { sendErrorResponse } from '../utils/sendErrorResponse';
 
 // TODO USE MIDDLEWARE, SEE CHAT REQUEST SERVICE
 const validateRequestBody = (requestBody: any): ToDo => {
@@ -18,16 +18,7 @@ export const postTodo: RequestHandler = async (req, res) => {
     const {name, done} = validateRequestBody(req.body)
     await writeNewTodoToDb({name, done});
     res.status(201).send();
-  } catch (e: any) {
-    if (isRFC7807Error(e)) {
-      res.set('Content-Type', 'application/problem+json').json(e.toJson())
-    } else {
-      res.set('Content-Type', 'application/problem+json').json({
-        status,
-        type: e.type || 'Unknown',
-        title: 'Unexpected error occurred',
-        detail: e.detail || e.message,
-      })
-    }
+  } catch (err: any) {
+    sendErrorResponse(res, err);
   }
 }
