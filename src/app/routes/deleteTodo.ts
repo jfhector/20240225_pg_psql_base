@@ -1,6 +1,6 @@
 import { deleteTodoFromDb } from '../../infra/db/';
 import { RequestHandler } from 'express' ;
-import { isRFC7807Error } from '../../utils/RFC7807Error';
+import { sendErrorResponse } from '../utils/sendErrorResponse';
 
 export const deleteTodo: RequestHandler = async (req, res) => {
   const { id } = req.params;
@@ -8,16 +8,7 @@ export const deleteTodo: RequestHandler = async (req, res) => {
     await deleteTodoFromDb(id);
     res.status(200).json({ message: 'Todo deleted successfully, if it existed' });
     
-  } catch (e: any) {
-    if (isRFC7807Error(e)) {
-      res.set('Content-Type', 'application/problem+json').json(e.toJson);
-    } else {
-      res.set('Content-Type', 'application/problem+json').json({
-        status,
-        type: e.type || 'Unknown',
-        title: 'Unexpected error occurred',
-        detail: e.detail || e.message,
-      })
-    }
+  } catch (err: any) {
+    sendErrorResponse(res, err);
   }
 }
