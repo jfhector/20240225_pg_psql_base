@@ -1,3 +1,4 @@
+import { InternalServerError } from '../../../../app/errors'; // TODO CONSIDER DEFINING INFRA ERRORS RATHER THAN IMPORTING FROM APP
 import { pool } from '../../setup/pool'; // Q? How to use dependency injection here?
 import { TODOS_TABLE } from './const';
 
@@ -15,9 +16,8 @@ const writeNewTodoToDb: WriteNewToDoToDb = async ({
     try {
         const res = await pool.query(queryText, queryValues); // Q? What would Knex add?
         console.log('inserted', res.rows[0]);
-    } catch (err) {
-        console.error(err);
-        throw err;
+    } catch (e) {
+        throw new InternalServerError()
     }
 }
 
