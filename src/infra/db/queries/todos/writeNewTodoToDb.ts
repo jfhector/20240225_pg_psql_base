@@ -3,7 +3,7 @@ import { pool } from '../../setup/pool'; // Q? How to use dependency injection h
 import { TODOS_TABLE } from './const';
 
 interface WriteNewToDoToDb {
-    (options: {name: string, done: boolean}): Promise<void>
+    (options: {name: string, done?: boolean}): Promise<void>
 }
 
 const writeNewTodoToDb: WriteNewToDoToDb = async ({
