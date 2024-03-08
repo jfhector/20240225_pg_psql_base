@@ -1,4 +1,4 @@
-import { InternalServerError } from '../../../../app/errors'; // TODO CONSIDER DEFINING INFRA ERRORS RATHER THAN IMPORTING FROM APP
+import { InternalServerError } from '../../../errors';
 import { pool } from '../../setup/pool'; // Q? How to use dependency injection here?
 import { TODOS_TABLE } from './const';
 
