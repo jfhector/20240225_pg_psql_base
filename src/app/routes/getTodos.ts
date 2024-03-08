@@ -1,4 +1,4 @@
-import { isRFC7807Error } from 'src/utils/RFC7807Error';
+import { isRFC7807Error } from '../../utils/RFC7807Error';
 import { getTodosFromDb } from '../../infra/db/';
 import { RequestHandler } from 'express' ;
 
@@ -8,9 +8,9 @@ export const getTodos: RequestHandler = async (_, res) => {
     res.json(todos);
   } catch (e: any) {
     if (isRFC7807Error(e)) {
-      res.json(e.toJson())
+      res.set('Content-Type', 'application/problem+json').json(e.toJson());
     } else {
-      res.json({
+      res.set('Content-Type', 'application/problem+json').json({
         status,
         type: e.type || 'Unknown',
         title: 'Unexpected error occurred',
