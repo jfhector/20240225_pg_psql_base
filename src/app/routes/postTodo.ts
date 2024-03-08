@@ -1,7 +1,8 @@
 import { writeNewTodoToDb } from '../../infra/db/';
 import { RequestHandler } from 'express' ;
 import { todoSchema, ToDo } from './schemas' ;
-import { SchemaValidationError, isRFC7807Error } from '../errors';
+import { SchemaValidationError } from '../errors';
+import { isRFC7807Error } from '../../utils/RFC7807Error';
 
 // TODO USE MIDDLEWARE, SEE CHAT REQUEST SERVICE
 const validateRequestBody = (requestBody: any): ToDo => {
