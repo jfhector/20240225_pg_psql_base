@@ -1,20 +1,33 @@
 import { writeNewTodoToDb } from '../../infra/db/';
 import { RequestHandler } from 'express' ;
 import { todoSchema, ToDo } from './schemas' ;
+import { SchemaValidationError, isRFC7807Error } from '../errors';
+
+// TODO USE MIDDLEWARE, SEE CHAT REQUEST SERVICE
+const validateRequestBody = (requestBody: any): void => {
+  try { 
+    todoSchema.parse(requestBody);
+  } catch (e) {
+    throw new SchemaValidationError()
+  }
+}
 
 export const postTodo: RequestHandler = async (req, res) => {
-  try { // TODO USE MIDDLEWARE, SEE CHAT REQUEST SERVICE
-    todoSchema.parse(req.body);
-  } catch (e) {
-    res.status(400).send({ error: (e as any).errors }); // TODO TYPE // TODO ERROR: DON'T LEAK ERROR. // TODO PUT THIS IN THE SAME TRY BLOCK AS BELOW BUT THROW AND CATCH MORE SPECIFIC ERRORS
-  }
-
-  const {name, done} = req.body as ToDo; // TODO Add schema and type safety
-
   try {
-    await writeNewTodoToDb({name, done}); // Q? How to handle the fact that this may fail? look at errors classes; but also how to know whether need to use a try-catch again?
+    validateRequestBody(req.body)
+    const {name, done} = req.body as ToDo; // TODO Get name and done as part of previous line without as
+    await writeNewTodoToDb({name, done});
     res.status(201).send();
-  } catch (e) {
-    res.status(500).send();
+  } catch (e: any) {
+    if (isRFC7807Error(e)) {
+      res.json(e.toJson())
+    } else {
+      res.json({
+        status,
+        type: e.type || 'Unknown',
+        title: 'Unexpected error occurred',
+        detail: e.detail || e.message,
+      })
+    }
   }
 }
