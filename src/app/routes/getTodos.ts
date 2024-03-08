@@ -5,7 +5,7 @@ import { RequestHandler } from 'express' ;
 export const getTodos: RequestHandler = async (_, res) => {
   try {
     const todos = await getTodosFromDb();
-    res.json(todos);
+    res.set('Content-Type', 'application/vnd+jfhector.todos-app-todos+json').json(todos);
   } catch (e: any) {
     if (isRFC7807Error(e)) {
       res.set('Content-Type', 'application/problem+json').json(e.toJson());
