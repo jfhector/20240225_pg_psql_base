@@ -2,7 +2,6 @@ import { writeNewTodoToDb } from '../../infra/db/';
 import { RequestHandler } from 'express' ;
 import { todoSchema, ToDo } from './schemas' ;
 import { SchemaValidationError } from '../errors';
-import { sendErrorResponse } from '../utils/sendErrorResponse';
 
 // TODO USE MIDDLEWARE, SEE CHAT REQUEST SERVICE
 const validateRequestBody = (requestBody: any): ToDo => {
@@ -13,12 +12,12 @@ const validateRequestBody = (requestBody: any): ToDo => {
   }
 }
 
-export const postTodo: RequestHandler = async (req, res) => {
+export const postTodo: RequestHandler = async (req, res, next) => {
   try {
     const {name, done} = validateRequestBody(req.body)
     await writeNewTodoToDb({name, done});
     res.status(201).send();
   } catch (err: any) {
-    sendErrorResponse(res, err);
+    next(err);
   }
 }
